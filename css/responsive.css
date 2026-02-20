@@ -1,0 +1,404 @@
+/* Планшеты */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    padding: 20px;
+  }
+
+  .slide h1 {
+    font-size: 2.5rem;
+  }
+
+  .slide h2 {
+    font-size: 1.8rem;
+  }
+
+  .slide .price {
+    font-size: 1.8rem;
+  }
+}
+
+/* Планшеты малые */
+@media (max-width: 768px) {
+  .grid {
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .header h1 {
+    font-size: 1.8rem;
+  }
+
+  .header-subtitle {
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+  }
+
+  .toolbar {
+    padding: 0 16px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filters {
+    width: 100%;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .filter {
+    padding: 5px 12px;
+    font-size: 0.8rem;
+  }
+
+  .slide h1 {
+    font-size: 2.2rem;
+  }
+
+  .slide-content {
+    margin-bottom: 40px;
+    margin-left: 25px;
+    max-width: 80%;
+  }
+
+  .slide-content.right {
+    margin-right: 25px;
+  }
+
+  /* Видео-иконка */
+  .card-video-icon {
+    width: 28px;
+    height: 28px;
+    top: 45px;
+  }
+
+  .card-video-icon::before {
+    border-width: 6px 0 6px 10px;
+  }
+
+  .modal-header {
+    padding: 0.75rem 1.2rem;
+  }
+
+  .floating-actions {
+    bottom: 15px;
+    right: 15px;
+    gap: 8px;
+  }
+
+  .float-btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  .contact-card {
+    padding: 1rem;
+  }
+
+  .contact-icon {
+    font-size: 1.6rem;
+    min-width: 45px;
+  }
+
+  .modal-logo img {
+    height: 20px;
+  }
+
+  .modal-logo {
+    bottom: 12px;
+    right: 12px;
+    padding: 5px 10px;
+  }
+
+  .scroll-top {
+    bottom: 70px;
+    right: 15px;
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+
+  /* Футер с PDF кнопкой */
+  .footer-pdf-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .footer-pdf-hint {
+    font-size: 0.65rem;
+  }
+}
+
+/* Телефоны горизонтально */
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+
+  .card-id {
+    font-size: 0.7rem;
+  }
+
+  .card-logo img {
+    height: 16px;
+  }
+
+  .card-logo {
+    top: 8px;
+    right: 8px;
+    padding: 4px 8px;
+  }
+
+  .card-content {
+    padding: 15px 12px;
+  }
+
+  .card-area {
+    font-size: 0.75rem;
+  }
+
+  .card-price {
+    font-size: 0.9rem;
+  }
+
+  .card-contact-btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  /* Видео-иконка */
+  .card-video-icon {
+    width: 24px;
+    height: 24px;
+    top: 40px;
+    left: 10px;
+  }
+}
+
+/* Телефоны вертикально */
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 12px;
+  }
+
+  .header {
+    padding: 1rem;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .header-subtitle {
+    font-size: 0.65rem;
+  }
+
+  .filters {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .filter {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+  }
+
+  .card-content {
+    padding: 18px 15px;
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+  }
+
+  .card-area {
+    font-size: 0.8rem;
+  }
+
+  .card-price {
+    font-size: 1.1rem;
+  }
+
+  .slide h1 {
+    font-size: 1.8rem;
+  }
+
+  .slide h2 {
+    font-size: 1.4rem;
+  }
+
+  .slide .price {
+    font-size: 1.4rem;
+  }
+
+  .slide .meta {
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+  }
+
+  .features {
+    grid-template-columns: 1fr !important;
+  }
+
+  .slide-content {
+    margin-bottom: 30px;
+    margin-left: 15px;
+    max-width: 90%;
+  }
+
+  .slide-content.right {
+    margin-right: 15px;
+  }
+
+  .floating-actions {
+    bottom: 10px;
+    right: 10px;
+    flex-direction: row;
+    left: 10px;
+    justify-content: space-between;
+    gap: 5px;
+  }
+
+  .float-btn {
+    padding: 8px 5px;
+    flex: 1;
+    justify-content: center;
+    font-size: 0.7rem;
+    gap: 3px;
+  }
+
+  .float-btn span {
+    font-size: 0.9rem;
+    margin-right: 2px;
+  }
+
+  .contact-card {
+    padding: 0.8rem;
+  }
+
+  .contact-icon {
+    font-size: 1.4rem;
+    min-width: 35px;
+  }
+
+  .contact-info h3 {
+    font-size: 0.95rem;
+  }
+
+  .contact-info p {
+    font-size: 0.8rem;
+  }
+
+  .contact-info small {
+    font-size: 0.65rem;
+  }
+
+  .message-tags {
+    gap: 5px;
+  }
+
+  .message-tags span {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.7rem;
+  }
+
+  .footer {
+    padding: 1.2rem;
+  }
+
+  .footer-text {
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
+  }
+
+  .footer-pdf-btn {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+
+  .footer-pdf-btn span {
+    font-size: 1rem;
+  }
+
+  .footer-pdf-hint {
+    font-size: 0.6rem;
+  }
+
+  .scroll-top {
+    bottom: 60px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+}
+
+/* Маленькие телефоны */
+@media (max-width: 320px) {
+  .header h1 {
+    font-size: 1.2rem;
+  }
+
+  .header-subtitle {
+    font-size: 0.6rem;
+  }
+
+  .filter {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+  }
+
+  .slide h1 {
+    font-size: 1.5rem;
+  }
+
+  .slide h2 {
+    font-size: 1.2rem;
+  }
+
+  .slide-content {
+    margin-bottom: 20px;
+    margin-left: 10px;
+  }
+
+  .slide-content.right {
+    margin-right: 10px;
+  }
+
+  .float-btn {
+    font-size: 0.6rem;
+    padding: 5px 3px;
+  }
+
+  .float-btn span {
+    font-size: 0.8rem;
+  }
+
+  .footer-pdf-btn {
+    padding: 6px 12px;
+    font-size: 0.65rem;
+  }
+
+  .scroll-top {
+    bottom: 50px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+}

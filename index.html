@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Эксклюзивная подборка элитной недвижимости от KALASHNIKOV LISTING">
+  <meta property="og:title" content="KALASHNIKOV LISTING — Сомелье элитной недвижимости">
+  <meta property="og:image" content="images/preview.jpg">
+  <title>KALASHNIKOV LISTING</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="header-container">
+      <div class="header-left">
+        <h1>KALASHNIKOV <span>LISTING</span></h1>
+        <div class="header-subtitle">Сомелье элитной недвижимости</div>
+      </div>
+      <div class="header-right">
+        <button class="theme-toggle-header" onclick="toggleTheme()" id="themeToggle">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="object-counter">
+      <span class="counter-number">0</span> объектов
+    </div>
+
+    <div class="filters-wrapper">
+      <!-- Фильтры по классу -->
+      <div class="filters-row">
+        <span class="filters-label">Класс:</span>
+        <div class="filters">
+          <button class="filter active" data-filter="all">Все</button>
+          <button class="filter" data-filter="premium">Премиум</button>
+          <button class="filter" data-filter="elite">Элитный</button>
+          <button class="filter" data-filter="business">Бизнес</button>
+          <button class="filter" data-filter="comfort">Комфорт+</button>
+        </div>
+      </div>
+
+      <!-- Фильтры по городам -->
+      <div class="filters-row">
+        <span class="filters-label">Город:</span>
+        <div class="city-filters">
+          <button class="city-filter active" data-city="all">Все города</button>
+          <button class="city-filter" data-city="Москва">🇷🇺 Москва</button>
+          <button class="city-filter" data-city="Новосибирск">🇷🇺 Новосибирск</button>
+          <button class="city-filter" data-city="Дубай">🇦🇪 Dubai</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="grid"></main>
+
+  <!-- Модальное окно контакта -->
+  <div id="modal-contact" class="modal">
+    <div class="modal-header">
+      <span class="modal-id">Связь с агентом</span>
+      <button class="modal-close" onclick="closeModal('modal-contact')">✕</button>
+    </div>
+    <div class="modal-logo"><img src="images/logo-Kalashnikov.png" alt=""></div>
+    <div class="modal-body">
+      <div class="contact-container">
+        <h2>Объект: <span id="contact-project-name">Объект 1</span></h2>
+        <p class="contact-project-id" id="contact-project-id">ID: OBJ-001</p>
+        <div class="contact-cards">
+          <div class="contact-card" onclick="window.open('https://t.me/NAKalashnikov', '_blank')">
+            <div class="contact-icon">📱</div>
+            <div class="contact-info">
+              <h3>Telegram</h3>
+              <p>@NAKalashnikov</p>
+              <small>Быстрый ответ 24/7</small>
+            </div>
+          </div>
+          <div class="contact-card" onclick="window.open('https://wa.me/79130019041', '_blank')">
+            <div class="contact-icon">📞</div>
+            <div class="contact-info">
+              <h3>WhatsApp</h3>
+              <p>+7 (913) 001-90-41</p>
+              <small>Напишите в любое время</small>
+            </div>
+          </div>
+          <div class="contact-card" onclick="window.location.href='tel:+79130019041'">
+            <div class="contact-icon">📲</div>
+            <div class="contact-info">
+              <h3>Прямой звонок</h3>
+              <p>+7 (913) 001-90-41</p>
+              <small>10:00–22:00</small>
+            </div>
+          </div>
+        </div>
+        <div class="quick-messages">
+          <h3>Быстрые сообщения:</h3>
+          <div class="message-tags">
+            <span onclick="window.open('https://t.me/NAKalashnikov?text=Здравствуйте! Хочу забронировать', '_blank')">🔐
+              Забронировать</span>
+            <span onclick="window.open('https://wa.me/79130019041?text=Хочу записаться на просмотр', '_blank')">🏠
+              Запись на просмотр</span>
+            <span onclick="window.open('https://t.me/NAKalashnikov?text=Интересует ипотека', '_blank')">💰
+              Ипотека</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Плавающие кнопки -->
+  <div class="floating-actions">
+    <button class="float-btn telegram" onclick="window.open('https://t.me/NAKalashnikov', '_blank')"><span>📱</span>
+      TG</button>
+    <button class="float-btn whatsapp" onclick="window.open('https://wa.me/79130019041', '_blank')"><span>📞</span>
+      WA</button>
+    <button class="float-btn call" onclick="window.location.href='tel:+79130019041'"><span>📲</span> Звонок</button>
+  </div>
+
+  <!-- Футер -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-text">SOMMELIER OF ELITE REAL ESTATE</div>
+
+      <!-- Реквизиты ИП -->
+      <div class="footer-legal">
+        <div class="legal-item">ИП Калашников Николай Анатольевич</div>
+        <div class="legal-item">ИНН 543315283830</div>
+      </div>
+
+      <!-- Копирайт и разработка -->
+      <div class="footer-copyright">
+        <div class="copyright">© 2024 Kalashnikov Listing</div>
+        <div class="developed">
+          разработано
+          <a href="#" class="dev-link">
+            KALASHNIKOV.IT
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Кнопка наверх -->
+  <button class="scroll-top" onclick="scrollToTop()" id="scrollTop">↑</button>
+
+  <!-- Модальное окно для формы агента -->
+  <div id="agentFormModal" class="agent-modal" style="display:none;">
+    <div class="agent-modal-content">
+      <button class="agent-modal-close" onclick="PDFGenerator.closeForm()">✕</button>
+      <h2>Данные агента</h2>
+      <form id="agent-data-form">
+        <div class="form-group">
+          <label>Выберите объект *</label>
+          <select id="temp-object-select" required>
+            <option value="">-- Загрузка объектов... --</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Ваше имя *</label>
+          <input type="text" id="agent-name-input" required>
+        </div>
+        <div class="form-group">
+          <label>Телефон *</label>
+          <input type="tel" id="agent-phone-input" required>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="agent-email-input">
+        </div>
+        <div class="form-group">
+          <label>Название офиса</label>
+          <input type="text" id="agent-office-input">
+        </div>
+        <div class="form-buttons">
+          <button type="button" onclick="PDFGenerator.processPDF()" class="btn-submit">Создать PDF</button>
+          <button type="button" onclick="PDFGenerator.closeForm()" class="btn-cancel">Отмена</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Скрытый контейнер для временной загрузки объектов -->
+  <div id="tempObjectContainer" style="display: none;"></div>
+
+  <!-- Библиотеки для PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- Скрипты -->
+  <script src="js/ui-controller.js"></script>
+  <script src="js/pdf-generator.js"></script>
+  <script src="js/load-objects.js"></script>
+
+  <script>
+    // Переключение темы
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const button = document.getElementById('themeToggle');
+
+      if (currentTheme === 'dark') {
+        document.documentElement.removeAttribute('data-theme');
+        button.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        button.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Загрузка сохранённой темы
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const button = document.getElementById('themeToggle');
+
+      if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        if (button) button.textContent = '☀️';
+      }
+    })();
+
+    // ============================================
+    // ЛОГИКА ФИЛЬТРАЦИИ (класс + город)
+    // ============================================
+    let currentCategoryFilter = 'all';
+    let currentCityFilter = 'all';
+
+    function applyFilters() {
+      const cards = document.querySelectorAll('.card');
+      let count = 0;
+
+      cards.forEach(card => {
+        const cardCategory = card.dataset.category;
+        const cardCity = card.dataset.city;
+
+        const categoryMatch = currentCategoryFilter === 'all' || cardCategory === currentCategoryFilter;
+        const cityMatch = currentCityFilter === 'all' || cardCity === currentCityFilter;
+
+        if (categoryMatch && cityMatch) {
+          card.classList.remove('hidden');
+          count++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      const counter = document.querySelector('.counter-number');
+      if (counter) counter.textContent = count;
+    }
+
+    // Фильтры по классу
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.filter').forEach(function (filter) {
+        filter.addEventListener('click', function () {
+          document.querySelectorAll('.filter').forEach(f => f.classList.remove('active'));
+          this.classList.add('active');
+
+          currentCategoryFilter = this.dataset.filter;
+          applyFilters();
+        });
+      });
+
+      // Фильтры по городам
+      document.querySelectorAll('.city-filter').forEach(function (filter) {
+        filter.addEventListener('click', function () {
+          document.querySelectorAll('.city-filter').forEach(f => f.classList.remove('active'));
+          this.classList.add('active');
+
+          currentCityFilter = this.dataset.city;
+          applyFilters();
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
