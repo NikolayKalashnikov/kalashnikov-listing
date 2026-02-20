@@ -402,3 +402,125 @@
     font-size: 12px;
   }
 }
+
+@media (max-width: 480px) {
+  /* Уменьшаем отступы и шрифт фильтров */
+  .filters-row {
+    gap: 4px;
+  }
+
+  .filters-label {
+    font-size: 0.7rem;
+    min-width: auto;
+  }
+
+  .filter,
+  .city-filter {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+
+  /* Убираем отступы у тулбара */
+  .toolbar {
+    padding: 0 8px;
+  }
+
+  /* Заголовок KALASHNIKOV LISTING без переноса */
+  .header h1 {
+    font-size: 1.2rem;
+    white-space: nowrap;
+  }
+
+  .header-subtitle {
+    font-size: 0.6rem;
+    white-space: nowrap;
+  }
+
+  .header-container {
+    flex-wrap: nowrap;
+    gap: 4px;
+  }
+}
+
+/* Альбомная ориентация (горизонтально) */
+@media (max-width: 896px) and (orientation: landscape) {
+  .custom-scroll-container {
+    padding-left: 0;
+  }
+
+  .scroll-track {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    height: 100%;
+    z-index: 100;
+    background: transparent;
+    pointer-events: auto;
+  }
+
+  .scroll-content {
+    padding-right: 0;
+  }
+
+  .slide-content {
+    margin-left: 20px;
+    margin-right: 20px;
+    max-width: 80%;
+  }
+}
+
+/* Портретная ориентация (вертикально) */
+@media (max-width: 480px) and (orientation: portrait) {
+  .custom-scroll-container {
+    padding-left: 0;
+  }
+
+  .scroll-track {
+    position: absolute;
+    right: 2px;
+    top: 0;
+    height: 100%;
+    z-index: 100;
+    background: transparent;
+  }
+
+  .elevator-icon {
+    width: 22px;
+    height: 40px;
+  }
+
+  .elevator-cabin {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .slide-content {
+    margin-left: 15px;
+    margin-bottom: 40px;
+    max-width: 85%;
+  }
+
+  .slide-content.right {
+    margin-right: 15px;
+    margin-left: auto;
+  }
+
+  .slide h1 {
+    font-size: 1.8rem;
+  }
+
+  .slide h2 {
+    font-size: 1.4rem;
+  }
+
+  .slide .price {
+    font-size: 1.4rem;
+  }
+
+  .slide .meta {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
