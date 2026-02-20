@@ -524,3 +524,14 @@
     gap: 0.5rem;
   }
 }
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .slide {
+    background-size: contain !important;
+  }
+
+  .slide-image-left img,
+  .slide-image-right img {
+    object-fit: contain !important;
+  }
+}

@@ -1,82 +1,118 @@
 /* ============================================
-   KALASHNIKOV LISTING - MAIN STYLES
-   Version: 4.0
+   KALASHNIKOV LISTING — MAIN STYLES
+   Версия: 5.0 (Оптимизированная)
+   Описание: Основные стили проекта
 ============================================ */
 
 /* --------------------------------------------
-   ПОДКЛЮЧЕНИЕ ЛОКАЛЬНЫХ ШРИФТОВ
+   1. ПОДКЛЮЧЕНИЕ ЛОКАЛЬНЫХ ШРИФТОВ
+   --------------------------------------------
+   Шрифты хранятся в папке /fonts.
+   Подключаем три начертания:
+   - TitleFont — для заголовков
+   - PriceFont — для цен (жирный)
+   - DescriptionFont — для основного текста
 -------------------------------------------- */
 
-/* Шрифт для заголовков (h1, h2, .card-title) */
 @font-face {
   font-family: 'TitleFont';
   src: url('../fonts/title-font/title.woff2') format('woff2'),
-    url('../fonts/title-font/title.woff') format('woff'),
-    url('../fonts/title-font/title.ttf') format('truetype');
+       url('../fonts/title-font/title.woff') format('woff'),
+       url('../fonts/title-font/title.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-/* Шрифт для цен (.price, .card-price) */
 @font-face {
   font-family: 'PriceFont';
   src: url('../fonts/price-font/price.woff2') format('woff2'),
-    url('../fonts/price-font/price.woff') format('woff'),
-    url('../fonts/price-font/price.ttf') format('truetype');
+       url('../fonts/price-font/price.woff') format('woff'),
+       url('../fonts/price-font/price.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
 }
 
-/* Шрифт для описания (p, .meta, .feature-item) */
 @font-face {
   font-family: 'DescriptionFont';
   src: url('../fonts/description-font/description.woff2') format('woff2'),
-    url('../fonts/description-font/description.woff') format('woff'),
-    url('../fonts/description-font/description.ttf') format('truetype');
+       url('../fonts/description-font/description.woff') format('woff'),
+       url('../fonts/description-font/description.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 /* --------------------------------------------
-   ПЕРЕМЕННЫЕ
+   2. CSS-ПЕРЕМЕННЫЕ (CUSTOM PROPERTIES)
+   --------------------------------------------
+   :root — светлая тема (по умолчанию)
+   [data-theme="dark"] — тёмная тема
+   Здесь хранятся все цвета, тени, отступы.
+   Меняя значения здесь — меняем весь сайт.
 -------------------------------------------- */
+
 :root {
-  --bg-main: #f0f2f5;
-  --bg-light: #ffffff;
-  --text-dark: #222222;
-  --text-gray: #666666;
-  --text-light: #ffffff;
-  --card-bg: #ffffff;
+  /* Основные фоны */
+  --bg-main: #f0f2f5;        /* Фон страницы */
+  --bg-main-rgb: 240, 242, 245;
+  --bg-light: #ffffff;        /* Белый фон (карточки, фильтры) */
+
+  /* Текст */
+  --text-dark: #222222;       /* Основной текст (светлая тема) */
+  --text-gray: #666666;       /* Второстепенный текст */
+  --text-light: #ffffff;      /* Белый текст (на тёмном фоне) */
+
+  /* Карточки */
+  --card-bg: #ffffff;         /* Фон карточки */
+
+  /* Тени */
   --shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
   --shadow-hover: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+  /* Границы */
   --border-light: #eaeaea;
+
+  /* Затемнения для слайдов */
   --overlay-dark: rgba(0, 0, 0, 0.6);
   --overlay-darker: rgba(0, 0, 0, 0.7);
-  --badge-sale: #ff4444;
-  --badge-urgent: #ff8c00;
+
+  /* Цвета бейджей */
+  --badge-sale: #ff4444;      /* Красный — "Цена снижена" */
+  --badge-urgent: #ff8c00;    /* Оранжевый — "Срочная продажа" */
 }
 
-/* Тёмная тема */
+:root {
+  --photo-bg: #1a1a1a;  /* тёмно-серый фон */
+}
+
+.slide, .card-image, .slide-image-left img, .slide-image-right img {
+  background-color: var(--photo-bg);
+}
+
+/* Тёмная тема — переопределяем переменные */
 [data-theme="dark"] {
   --bg-main: #1a1a1a;
+  --bg-main-rgb: 26, 26, 26;
   --bg-light: #2d2d2d;
   --text-dark: #ffffff;
   --text-gray: #b0b0b0;
-  --text-light: #ffffff;
   --card-bg: #2d2d2d;
   --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   --shadow-hover: 0 4px 15px rgba(0, 0, 0, 0.4);
   --border-light: #404040;
   --overlay-dark: rgba(0, 0, 0, 0.8);
   --overlay-darker: rgba(0, 0, 0, 0.9);
+  /* цвета бейджей не меняем */
 }
 
 /* --------------------------------------------
-   БАЗОВЫЕ СТИЛИ
+   3. БАЗОВЫЕ СБРОСЫ И ОБЩИЕ СТИЛИ
+   --------------------------------------------
+   Обнуляем отступы, box-sizing для всех элементов.
 -------------------------------------------- */
+
 * {
   margin: 0;
   padding: 0;
@@ -91,41 +127,31 @@ body {
 }
 
 /* --------------------------------------------
-   ЗАГОЛОВКИ (ПРИМЕНЕНИЕ ШРИФТОВ)
+   4. ПРИМЕНЕНИЕ ШРИФТОВ К ЭЛЕМЕНТАМ
+   --------------------------------------------
+   Раскомментируем нужные семейства.
 -------------------------------------------- */
-h1,
-h2,
-h3,
-.card-title,
-.modal h1,
-.modal h2,
-.modal h3 {
+
+h1, h2, h3, .card-title, .modal h1, .modal h2, .modal h3 {
   font-family: 'TitleFont', sans-serif;
 }
 
-/* Цены */
-.price,
-.card-price,
-.modal .price {
+.price, .card-price, .modal .price {
   font-family: 'PriceFont', sans-serif;
   font-weight: bold;
 }
 
-/* Основной текст */
-p,
-.meta,
-.feature-item,
-.card-area,
-.card-id,
-.contact-info p,
-.contact-info small,
-.message-tags span {
+p, .meta, .feature-item, .card-area, .card-id,
+.contact-info p, .contact-info small, .message-tags span {
   font-family: 'DescriptionFont', sans-serif;
 }
 
 /* --------------------------------------------
-   ХЕДЕР
+   5. ХЕДЕР (ШАПКА САЙТА)
+   --------------------------------------------
+   Содержит логотип, название и кнопку темы.
 -------------------------------------------- */
+
 .header {
   padding: 1.5rem 2rem;
   background-color: var(--bg-main);
@@ -175,7 +201,7 @@ p,
   text-align: left;
 }
 
-/* Кнопка темы */
+/* Кнопка переключения темы */
 .theme-toggle-header {
   background: transparent !important;
   color: var(--text-dark);
@@ -188,29 +214,30 @@ p,
   padding: 0;
   width: 44px;
   height: 44px;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, color 0.2s ease;
   line-height: 1;
 }
 
 .theme-toggle-header:hover {
   transform: scale(1.1);
-  background: transparent !important;
   color: #C5A267;
 }
 
 [data-theme="dark"] .theme-toggle-header {
   color: #f0f0f0;
-  background: transparent !important;
 }
 
 [data-theme="dark"] .theme-toggle-header:hover {
   color: #C5A267;
-  background: transparent !important;
 }
 
 /* --------------------------------------------
-   ТУЛБАР И ФИЛЬТРЫ (ОБНОВЛЕНО)
+   6. ТУЛБАР И ФИЛЬТРЫ
+   --------------------------------------------
+   Содержит счётчик объектов и фильтры.
+   Фильтры разделены на два ряда: категории и города.
 -------------------------------------------- */
+
 .toolbar {
   max-width: 1400px;
   margin: 20px auto 0;
@@ -248,11 +275,9 @@ p,
   flex-wrap: wrap;
 }
 
+/* Скрываем подписи «Класс:» и «Город:» (если нужно — удалить) */
 .filters-label {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--text-gray);
-  white-space: nowrap;
+  display: none;
 }
 
 .filters,
@@ -270,7 +295,7 @@ p,
   border-radius: 20px;
   color: var(--text-gray);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
   font-size: 0.85rem;
   box-shadow: var(--shadow);
   white-space: nowrap;
@@ -280,6 +305,7 @@ p,
 .city-filter:hover {
   background: #e0e0e0;
   color: var(--text-dark);
+  transform: scale(1.05);
 }
 
 .filter.active,
@@ -288,9 +314,34 @@ p,
   color: white;
 }
 
+/* Выпадающий список городов (альтернатива кнопкам) */
+.city-selector {
+  margin-top: 10px;
+}
+
+.city-dropdown {
+  padding: 8px 16px;
+  background: var(--bg-light);
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  color: var(--text-dark);
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  outline: none;
+}
+
+.city-dropdown:hover {
+  border-color: #C5A267;
+}
+
 /* --------------------------------------------
-   СЕТКА КАРТОЧЕК
+   7. СЕТКА КАРТОЧЕК
+   --------------------------------------------
+   Карточки выстраиваются в 3 колонки.
+   Адаптивность: 2 колонки на планшете, 1 на телефоне.
 -------------------------------------------- */
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -301,19 +352,29 @@ p,
 }
 
 /* --------------------------------------------
-   КАРТОЧКИ ОБЪЕКТОВ
+   8. КАРТОЧКИ ОБЪЕКТОВ
+   --------------------------------------------
+   Содержат фото, город, бейдж, логотип, цену, площадь, кнопку.
 -------------------------------------------- */
+
 .card {
   background: var(--card-bg);
   aspect-ratio: 3/4;
   position: relative;
   cursor: pointer;
   overflow: hidden;
-  transition: all 0.3s ease;
   border-radius: 8px;
   box-shadow: var(--shadow);
+
+  /* Анимация появления при скролле */
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card.visible {
   opacity: 1;
-  transform: scale(1);
+  transform: translateY(0);
 }
 
 .card:hover {
@@ -328,10 +389,11 @@ p,
 .card-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: all 0.3s ease;
+  object-fit: cover;   /* - обрезает */
+  transition: transform 0.3s ease;
 }
 
+/* Затемнение снизу для читаемости текста */
 .card::after {
   content: '';
   position: absolute;
@@ -344,6 +406,7 @@ p,
   pointer-events: none;
 }
 
+/* Город на карточке */
 .card-city {
   position: absolute;
   top: 15px;
@@ -360,6 +423,7 @@ p,
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* Бейдж (Цена снижена / Срочная продажа) */
 .card-badge {
   position: absolute;
   top: 15px;
@@ -380,6 +444,7 @@ p,
   background: var(--badge-urgent);
 }
 
+/* Контент карточки (текст внизу) */
 .card-content {
   position: absolute;
   bottom: 0;
@@ -398,7 +463,6 @@ p,
   font-weight: 500;
   margin-bottom: 2px;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  color: white;
 }
 
 .card-area {
@@ -429,7 +493,7 @@ p,
   margin-bottom: 4px;
 }
 
-/* Кнопка на карточке - стеклянный эффект */
+/* Кнопка на карточке (стеклянный эффект) */
 .card-contact-btn {
   padding: 10px 16px;
   background: rgba(255, 255, 255, 0.2);
@@ -440,7 +504,7 @@ p,
   color: white;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   width: 100%;
   font-size: 0.9rem;
   letter-spacing: 0.5px;
@@ -448,6 +512,8 @@ p,
   margin-top: 8px;
   display: block;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  position: relative;
 }
 
 .card-contact-btn:hover {
@@ -457,10 +523,13 @@ p,
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
+.card-contact-btn:active {
+  transform: scale(0.95);
+}
+
 [data-theme="dark"] .card-contact-btn {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
-  color: white;
 }
 
 [data-theme="dark"] .card-contact-btn:hover {
@@ -468,9 +537,7 @@ p,
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* --------------------------------------------
-   ВИДЕО НА КАРТОЧКЕ
--------------------------------------------- */
+/* Иконка видео на карточке (пульсирующий треугольник) */
 .card-video-icon {
   position: absolute;
   bottom: 100px;
@@ -489,7 +556,7 @@ p,
   border: none;
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
   animation: pulse 2s infinite;
 }
 
@@ -509,13 +576,24 @@ p,
   box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
 }
 
-.card-video-icon:hover::before {
-  border-color: transparent transparent transparent #ffffff;
+/* Анимация пульсации */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7); }
+  80% { box-shadow: 0 0 0 10px rgba(255, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0); }
+}
+
+/* Скрытие карточек при фильтрации */
+.card.hidden {
+  display: none !important;
 }
 
 /* --------------------------------------------
-   МОДАЛЬНЫЕ ОКНА
+   9. МОДАЛЬНЫЕ ОКНА
+   --------------------------------------------
+   Контейнеры для контактов, PDF и других форм.
 -------------------------------------------- */
+
 .modal {
   display: none;
   position: fixed;
@@ -560,13 +638,14 @@ p,
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .modal-close:hover {
   background-color: #e0e0e0;
 }
 
+/* Логотип в модалке */
 .modal-logo {
   position: fixed;
   bottom: 20px;
@@ -585,26 +664,47 @@ p,
   display: block;
 }
 
+/* Контейнер для скролла внутри модалки */
 .modal-body {
   height: 100vh;
   overflow-y: auto;
   scroll-behavior: smooth;
   margin-top: 60px;
+  padding-right: 20px; /* отступ для скролла */
 }
 
 /* --------------------------------------------
-   СЛАЙДЫ В МОДАЛКАХ
+   10. СЛАЙДЫ В МОДАЛКАХ
+    --------------------------------------------
+    Каждый слайд — отдельная секция.
+    Текст может быть слева или справа.
 -------------------------------------------- */
+
 .slide {
   min-height: 100vh;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
+  background-repeat: no-repeat;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   position: relative;
   display: flex;
   align-items: flex-end;
   padding: 0;
 }
 
+/* Эффект свечения */
+.slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.4) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Затемнение для читаемости текста */
 .slide::before {
   content: '';
   position: absolute;
@@ -635,28 +735,25 @@ p,
   font-weight: 300;
   letter-spacing: 1px;
   margin-bottom: 0.8rem;
-  color: white;
 }
 
 .slide h2 {
   font-size: 2rem;
   font-weight: 300;
   margin-bottom: 0.8rem;
-  color: white;
+  color: var(--accent-gold, #C5A267);
 }
 
 .slide h3 {
   font-size: 1.4rem;
   font-weight: 400;
   margin-bottom: 0.8rem;
-  color: white;
 }
 
 .slide .price {
   font-size: 2rem;
   font-weight: 500;
   margin: 0.5rem 0;
-  color: white;
 }
 
 .slide .meta {
@@ -664,7 +761,6 @@ p,
   gap: 1.5rem;
   margin: 0.5rem 0;
   font-size: 1rem;
-  color: white;
 }
 
 .slide .meta span {
@@ -686,7 +782,6 @@ p,
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(5px);
   border-radius: 6px;
-  color: white;
   font-size: 0.95rem;
 }
 
@@ -699,7 +794,7 @@ p,
   border-radius: 30px;
   font-weight: 500;
   margin-top: 1.2rem;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease;
   font-size: 0.9rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -708,9 +803,38 @@ p,
   background: #f0f0f0;
 }
 
+/* Логотип на слайде */
+.slide-logo {
+  position: absolute;
+  top: 50px;
+  right: 60px;
+  z-index: 10;
+  background: transparent;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.slide-logo img {
+  height: 80px;
+  width: auto;
+  display: block;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+.slide-logo img:hover {
+  opacity: 1;
+}
+
 /* --------------------------------------------
-   ВИДЕО-СЛАЙД
+   11. ВИДЕО-СЛАЙД
+    --------------------------------------------
+    Слайд с видео: сначала превью с кнопкой,
+    затем плеер (скрыт до клика).
 -------------------------------------------- */
+
 .video-slide {
   padding: 0 !important;
   overflow: hidden;
@@ -751,7 +875,7 @@ p,
   align-items: center;
   gap: 15px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .video-play-button:hover {
@@ -771,13 +895,12 @@ p,
   font-size: 2.5rem;
   color: white;
   box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .video-play-button:hover .play-icon {
   background: rgba(204, 0, 0, 0.9);
-  backdrop-filter: blur(10px);
   box-shadow: 0 15px 40px rgba(255, 0, 0, 0.5);
   border-color: rgba(255, 255, 255, 0.5);
 }
@@ -793,12 +916,11 @@ p,
   padding: 10px 25px;
   border-radius: 40px;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .video-play-button:hover span {
   background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(10px);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
@@ -815,8 +937,11 @@ p,
 }
 
 /* --------------------------------------------
-   КОНТАКТНАЯ ФОРМА
+   12. КОНТАКТНАЯ ФОРМА
+    --------------------------------------------
+    Стеклянное модальное окно с контактами.
 -------------------------------------------- */
+
 #modal-contact .modal-body {
   display: flex;
   align-items: center;
@@ -826,6 +951,7 @@ p,
   overflow: hidden;
 }
 
+/* Фоновое изображение (размытое) */
 #modal-contact .modal-body::before {
   content: '';
   position: absolute;
@@ -896,7 +1022,7 @@ p,
   -webkit-backdrop-filter: blur(5px);
   border-radius: 16px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -970,7 +1096,7 @@ p,
   border-radius: 40px;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: #222;
   font-weight: 500;
@@ -985,8 +1111,11 @@ p,
 }
 
 /* --------------------------------------------
-   ПЛАВАЮЩИЕ КНОПКИ
+   13. ПЛАВАЮЩИЕ КНОПКИ (TG, WA, Звонок)
+    --------------------------------------------
+    Всегда видны в левом нижнем углу.
 -------------------------------------------- */
+
 .floating-actions {
   position: fixed;
   bottom: 20px;
@@ -1007,7 +1136,7 @@ p,
   display: flex;
   align-items: center;
   gap: 10px;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -1021,6 +1150,10 @@ p,
   background: rgba(255, 255, 255, 0.25);
   border-color: rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.float-btn:active {
+  transform: scale(0.95);
 }
 
 .float-btn span {
@@ -1059,8 +1192,11 @@ p,
 }
 
 /* --------------------------------------------
-   КНОПКА НАВЕРХ
+   14. КНОПКА НАВЕРХ
+    --------------------------------------------
+    Появляется при скролле вниз.
 -------------------------------------------- */
+
 .scroll-top {
   position: fixed;
   bottom: 80px;
@@ -1075,7 +1211,7 @@ p,
   border: none;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.2s ease;
+  transition: opacity 0.2s ease, visibility 0.2s ease, background 0.2s ease, transform 0.2s ease;
   z-index: 99;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -1090,321 +1226,115 @@ p,
 
 .scroll-top:hover {
   background: #444;
+  transform: scale(1.1);
+}
+
+.scroll-top:active {
+  transform: scale(0.95);
 }
 
 /* --------------------------------------------
-   ФУТЕР
+   16. КАСТОМНЫЙ СКРОЛЛ «ЗОЛОТОЙ ЛИФТ»
+    --------------------------------------------
+    Работает ТОЛЬКО на компьютерах (ширина > 768px).
+    На телефонах — обычный скролл.
 -------------------------------------------- */
-.footer {
-  padding: 2.5rem 2rem 2rem;
-  text-align: center;
-  margin-top: 2rem;
-  background: linear-gradient(180deg, var(--bg-main) 0%, #e8eaed 100%);
-  border-top: 1px solid var(--border-light);
-  position: relative;
-  overflow: hidden;
-}
 
-.footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #C5A267, transparent);
-}
-
-.footer-content {
-  max-width: 1400px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  position: relative;
-  z-index: 2;
-}
-
-.footer-text {
-  font-size: 0.85rem;
-  letter-spacing: 3px;
-  color: var(--text-gray);
-  text-transform: uppercase;
-  font-weight: 300;
-  opacity: 0.8;
-}
-
-.footer-legal {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1.5rem 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  width: 100%;
-  max-width: 500px;
-}
-
-.legal-item {
-  font-size: 0.9rem;
-  color: var(--text-dark);
-  font-weight: 400;
-  letter-spacing: 0.3px;
-  opacity: 0.8;
-  transition: opacity 0.2s ease;
-}
-
-.legal-item:hover {
-  opacity: 1;
-}
-
-.footer-copyright {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 100%;
-  padding-top: 0.5rem;
-}
-
-.copyright {
-  font-size: 0.85rem;
-  color: var(--text-gray);
-  letter-spacing: 0.5px;
-}
-
-.developed {
-  font-size: 0.8rem;
-  color: var(--text-gray);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-
-.dev-link {
-  color: #C5A267;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-.dev-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: #C5A267;
-  transition: width 0.2s ease;
-}
-
-.dev-link:hover {
-  color: #b38f4d;
-}
-
-.dev-link:hover::after {
-  width: 100%;
-}
-
-/* --------------------------------------------
-   ЛОГОТИП НА СЛАЙДАХ
--------------------------------------------- */
-.slide-logo {
-  position: absolute;
-  top: 30px;
-  right: 40px;
-  z-index: 10;
-  background: transparent;
-  padding: 0;
-  border: none;
-  box-shadow: none;
-  backdrop-filter: none;
-}
-
-.slide-logo img {
-  height: 40px;
-  width: auto;
-  display: block;
-  opacity: 0.9;
-  transition: opacity 0.2s ease;
-}
-
-.slide-logo img:hover {
-  opacity: 1;
-}
-
-/* --------------------------------------------
-   СКРЫТИЕ КАРТОЧЕК ПРИ ФИЛЬТРАЦИИ
--------------------------------------------- */
-.card.hidden {
-  display: none !important;
-}
-
-/* --------------------------------------------
-   АНИМАЦИИ
--------------------------------------------- */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7);
-  }
-
-  80% {
-    box-shadow: 0 0 0 10px rgba(255, 68, 68, 0);
-  }
-
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 68, 68, 0);
-  }
-}
-
-/* ============================================
-   КАСТОМНЫЙ СКРОЛЛ – ЗОЛОТОЙ ЛИФТ
-============================================ */
-* {
-  will-change: scroll-position;
-}
-
-.custom-scroll-container {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: row;
-  padding-left: 0px;        /* отступ слева 40px */
-  padding-right: 00px;
-  gap: 0;
-}
-
-.scroll-content {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 100%;
-  scroll-behavior: smooth;
-  scrollbar-width: none;          /* Firefox */
-  -ms-overflow-style: none;       /* IE/Edge */
-}
-
-.scroll-content::-webkit-scrollbar {
-  display: none;                  /* Chrome/Safari */
-  width: 0;
-  background: transparent;
-}
-
-/* Контейнер для троса и лифта */
-.scroll-track {
-  position: relative;
-  width: 40px;
-  height: calc(100% - 40px);
-  margin-top: 20px;
-  margin-bottom: 20px;
-  background: transparent;
-  display: flex;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-/* Тонкий чёрный трос */
-.scroll-track::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 45%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 100%;
-  background: #222;
-  box-shadow: 0 0 4px rgba(0,0,0,0.3);
-}
-
-/* Лифт (ползунок) */
-.scroll-thumb {
-  position: absolute;
-  left: 50;
-  width: 100%;
-  min-height: 80px;
-  background: transparent;
-  cursor: pointer;
-  transition: top 0.08s linear;
-  transition: box-shadow 0.2s ease;
-  display: flex;
-  justify-content: center;
-}
-
-/* Иконка лифта */
-.elevator-icon {
-  width: 36px;
-  height: 60px;
-  background: #C5A267;
-  border-radius: 30px;
-  box-shadow: 0 0 20px rgba(197, 162, 103, 0.6);
-  border: 3px solid #8B6F42;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  background-image:
-    linear-gradient(45deg, rgba(255,255,240,0.3) 4px, transparent 4px),
-    linear-gradient(135deg, rgba(255,255,240,0.3) 4px, transparent 4px);
-  background-size: 12px 12px;
-  background-position: 5px 10px, 5px 30px;
-  background-repeat: no-repeat;
-}
-
-.elevator-cabin {
-  font-size: 1.8rem;
-  line-height: 1;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-}
-
-.scroll-thumb:hover .elevator-icon {
-  background: #d4af37;
-  box-shadow: 0 0 30px #ffd700;
-  transform: scale(1.05);
-}
-
-/* Адаптивность для телефонов */
+/* Отключаем кастомный скролл на телефонах */
 @media (max-width: 768px) {
-  .custom-scroll-container {
-    padding-left: 0;           /* убираем отступ на телефонах */
+  ::-webkit-scrollbar {
+    width: 6px;
   }
-
-  .scroll-track {
-    width: 32px;
+  ::-webkit-scrollbar-thumb {
+    background: #C5A267;
+    border-radius: 4px;
   }
-
-  .elevator-icon {
-    width: 28px;
-    height: 50px;
-  }
-
-  .elevator-cabin {
-    font-size: 1.5rem;
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #C5A267 transparent;
   }
 }
 
-@media (max-width: 480px) {
-  .scroll-track {
-    width: 28px;
+/* Кастомный скролл только для компьютеров */
+@media (min-width: 769px) {
+  ::-webkit-scrollbar {
+    width: 16px;
+    background: #2a2a2a;
   }
 
-  .elevator-icon {
-    width: 24px;
-    height: 45px;
+  ::-webkit-scrollbar-track {
+    background: linear-gradient(90deg, #3a3a3a, #2a2a2a);
+    border-left: 2px solid #C5A267;
+    border-right: 2px solid #C5A267;
   }
 
-  .elevator-cabin {
-    font-size: 1.3rem;
+  ::-webkit-scrollbar-thumb {
+    background: #C5A267;
+    border-radius: 8px;
+    border: 2px solid #8B6F42;
+    background-image:
+      repeating-linear-gradient(45deg,
+        rgba(255,255,240,0.3) 0px,
+        rgba(255,255,240,0.3) 4px,
+        transparent 4px,
+        transparent 8px);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #d4af37;
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.9);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #C5A267 #2a2a2a;
   }
 }
 
 /* --------------------------------------------
-   АДАПТИВНОСТЬ
+   17. АНИМАЦИИ (ОПТИМИЗИРОВАННЫЕ)
+    --------------------------------------------
+    Микро-анимации для кнопок и элементов.
 -------------------------------------------- */
+
+/* Пульсация при клике (уже встроена в :active) */
+
+/* Эффект ряби (ripple) для кнопок */
+.filter, .city-filter, .float-btn, .card-contact-btn, .footer-pdf-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.filter::after, .city-filter::after, .float-btn::after,
+.card-contact-btn::after, .footer-pdf-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: translate(-50%, -50%);
+  transition: all 0.6s ease;
+}
+
+.filter:active::after, .city-filter:active::after,
+.float-btn:active::after, .card-contact-btn:active::after,
+.footer-pdf-btn:active::after {
+  width: 200px;
+  height: 200px;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+/* --------------------------------------------
+   18. АДАПТИВНОСТЬ (ДОПОЛНИТЕЛЬНЫЕ ПРАВКИ)
+    --------------------------------------------
+    Уточнения для разных устройств.
+-------------------------------------------- */
+
 @media (max-width: 1024px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1537,8 +1467,7 @@ p,
     font-size: 0.7rem;
   }
 
-  .filter,
-  .city-filter {
+  .filter, .city-filter {
     padding: 5px 12px;
     font-size: 0.8rem;
   }
@@ -1622,82 +1551,221 @@ p,
   }
 }
 
-/* Анимация появления карточек */
-.card {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
+/* ============================================
+   ФУТЕР — УМЕНЬШЕННЫЕ ОТСТУПЫ МЕЖДУ БЛОКАМИ
+============================================ */
 
-.card.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Пульсация при клике */
-.filter:active,
-.city-filter:active,
-.float-btn:active,
-.card-contact-btn:active,
-.footer-pdf-btn:active {
-  transform: scale(0.95);
-  transition: transform 0.1s ease;
-}
-
-/* Лёгкое увеличение при наведении */
-.filter:hover,
-.city-filter:hover,
-.float-btn:hover,
-.card-contact-btn:hover,
-.footer-pdf-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  transition: all 0.2s ease;
-}
-
-/* Эффект ряби (ripple) для кнопок (бонус) */
-.filter,
-.city-filter,
-.float-btn,
-.card-contact-btn,
-.footer-pdf-btn {
+.footer {
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+  margin-top: 2rem;
+  background: linear-gradient(180deg, var(--bg-main) 0%, #e8eaed 100%);
+  border-top: 1px solid var(--border-light);
   position: relative;
   overflow: hidden;
 }
 
-.filter::after,
-.city-filter::after,
-.float-btn::after,
-.card-contact-btn::after,
-.footer-pdf-btn::after {
+.footer::before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 5px;
-  height: 5px;
-  background: rgba(255, 255, 255, 0.5);
-  opacity: 0;
-  border-radius: 100%;
-  transform: scale(1, 1) translate(-50%);
-  transform-origin: 50% 50%;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #C5A267, transparent);
 }
 
-.filter:focus:not(:active)::after,
-.city-filter:focus:not(:active)::after,
-.float-btn:focus:not(:active)::after,
-.card-contact-btn:focus:not(:active)::after,
-.footer-pdf-btn:focus:not(:active)::after {
-  animation: ripple 0.6s ease-out;
+.footer-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem; /* ОБЩИЙ отступ между всеми блоками */
+  position: relative;
+  z-index: 2;
 }
 
-@keyframes ripple {
-  0% {
-    transform: scale(0, 0);
-    opacity: 0.5;
+.footer-text {
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  color: var(--text-gray);
+  text-transform: uppercase;
+  font-weight: 300;
+  opacity: 0.8;
+  margin-bottom: 0.3rem; /* небольшой отступ после верхней надписи */
+}
+
+/* Реквизиты ИП — уменьшаем отступы */
+.footer-legal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem; /* ОЧЕНЬ МАЛЕНЬКИЙ отступ между ИП и ИНН */
+  padding: 0.5rem 0; /* убираем большие паддинги */
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 500px;
+  margin: 0.2rem 0; /* уменьшаем вертикальные отступы */
+}
+
+.legal-item {
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+  line-height: 1.1; /* уменьшаем межстрочный интервал */
+}
+
+.legal-item:hover {
+  opacity: 1;
+}
+
+/* Копирайт — уменьшаем отступы */
+.footer-copyright {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem; /* минимальный отступ между © и "разработано" */
+  width: 70%;
+  padding-top: 0.2rem; /* убираем лишний padding */
+  margin-top: 0; /* убираем верхний отступ */
+}
+
+.copyright {
+  font-size: 0.85rem;
+  color: var(--text-gray);
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+}
+
+.developed {
+  font-size: 0.8rem;
+  color: var(--text-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  line-height: 1.2;
+}
+
+.dev-link {
+  color: #C5A267;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.dev-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #C5A267;
+  transition: width 0.2s ease;
+}
+
+.dev-link:hover {
+  color: #b38f4d;
+}
+
+.dev-link:hover::after {
+  width: 100%;
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ ДЛЯ ФУТЕРА
+============================================ */
+@media (max-width: 768px) {
+  .footer {
+    padding: 2rem 1.5rem 1.5rem;
   }
-  100% {
-    transform: scale(20, 20);
-    opacity: 0;
+
+  .footer-content {
+    gap: 1rem; /* на мобильных тоже уменьшаем */
+  }
+
+  .footer-legal {
+    padding: 0.3rem 0;
+    gap: 0.1rem;
+  }
+
+  .legal-item {
+    font-size: 0.8rem;
+  }
+
+  .copyright, .developed {
+    font-size: 0.75rem;
   }
 }
+
+@media (max-width: 200px) {
+  .footer {
+    padding: 1.0 rem 1rem 1rem;
+  }
+
+  .footer-text {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.2rem;
+  }
+
+  .footer-legal {
+    padding: 0.2rem 0;
+  }
+
+  .legal-item {
+    font-size: 0.7rem;
+  }
+
+  .developed {
+    flex-direction: column;
+    gap: 0.5px;
+  }
+}
+
+/* ============================================
+   СЧЁТЧИК ПРОСМОТРОВ НА КАРТОЧКЕ
+============================================ */
+.card-views {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  color: #C5A267;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  pointer-events: none; /* чтобы не мешал кликам */
+}
+
+.card-views::before {
+  content: '👁️';
+  font-size: 0.8rem;
+  margin-right: 2px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .card-views {
+    bottom: 8px;
+    left: 8px;
+    font-size: 0.7rem;
+    padding: 3px 6px;
+  }
+}
+/* ============================================
+   КОНЕЦ ФАЙЛА
+   ============================================ */

@@ -1,35 +1,45 @@
 // ============================================
-// АВТОМАТИЧЕСКАЯ ЗАГРУЗКА КАРТОЧЕК
+// load-objects.js — АВТОМАТИЧЕСКАЯ ЗАГРУЗКА КАРТОЧЕК
+// Версия: 2.0 (оптимизированная)
 // ============================================
 
 // Глобальный массив для хранения данных объектов
 let objectsData = [];
 
-// Загрузка данных из всех объектов
+// ============================================
+// 1. ЗАГРУЗКА ДАННЫХ ИЗ ПАПОК ОБЪЕКТОВ
+// ============================================
 async function loadAllObjectsData() {
   objectsData = [];
   let objectId = 1;
 
+  // Загружаем объекты последовательно, пока не кончатся
   while (true) {
     try {
+      // Пытаемся загрузить data.js для текущего ID
       await loadScript(`objects/object${objectId}/data.js`);
+
+      // Если данные успешно загружены (window.objectData существует)
       if (window.objectData) {
-        objectsData.push({ ...window.objectData });
-        delete window.objectData;
+        objectsData.push({ ...window.objectData }); // копируем данные
+        delete window.objectData; // очищаем для следующего объекта
         objectId++;
       } else {
-        break;
+        break; // данных нет — выходим
       }
     } catch (e) {
+      // Файл не найден — заканчиваем загрузку
       break;
     }
   }
 
-  console.log(`Загружено ${objectsData.length} объектов`);
+  console.log(`✅ Загружено ${objectsData.length} объектов`);
   return objectsData;
 }
 
-// Вспомогательная функция для загрузки скрипта
+// ============================================
+// 2. ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ ЗАГРУЗКИ СКРИПТА
+// ============================================
 function loadScript(src) {
   return new Promise((resolve, reject) => {
     const script = document.createElement('script');
@@ -40,24 +50,30 @@ function loadScript(src) {
   });
 }
 
-// Основная функция загрузки карточек
+// ============================================
+// 3. ОСНОВНАЯ ФУНКЦИЯ ЗАГРУЗКИ КАРТОЧЕК
+// ============================================
 async function loadObjects() {
   const grid = document.querySelector('.grid');
   const counter = document.querySelector('.counter-number');
 
   if (!grid) return;
 
-  // Загружаем данные
+  // Загружаем данные из всех объектов
   await loadAllObjectsData();
+
+  // Очищаем сетку перед созданием новых карточек
   grid.innerHTML = '';
 
+  // Создаём карточки для каждого объекта
   objectsData.forEach(obj => {
     const card = document.createElement('div');
     card.className = 'card';
     card.dataset.category = obj.category;
-    card.dataset.city = obj.city;  // ← ДОБАВЛЕНО для фильтрации по городам
+    card.dataset.city = obj.city; // для фильтрации по городам
     card.setAttribute('onclick', `window.location.href='objects/object${obj.id}/index.html'`);
 
+    // Формируем HTML для бейджа (если есть)
     let badgeHtml = '';
     if (obj.badge) {
       if (obj.badge === 'urgent') {
@@ -67,9 +83,11 @@ async function loadObjects() {
       }
     }
 
+    // Иконка видео (если есть)
     const videoIcon = obj.hasVideo ?
       `<div class="card-video-icon" title="Есть видео-обзор"></div>` : '';
 
+    // Вставляем HTML в карточку
     card.innerHTML = `
       <img src="${obj.image}" alt="${obj.title}" class="card-image" loading="lazy"
         onerror="this.src='https://via.placeholder.com/600x800/cccccc/666666?text=${obj.title.replace(/ /g, '+')}'">
@@ -88,14 +106,21 @@ async function loadObjects() {
     grid.appendChild(card);
   });
 
+  // Обновляем счётчик объектов
   if (counter) counter.textContent = objectsData.length;
+
+  // Обновляем счётчик с учётом фильтров (после создания карточек)
   updateFiltersCount();
 }
 
-// Обновление счетчика с учетом фильтров
+// ============================================
+// 4. ОБНОВЛЕНИЕ СЧЁТЧИКА С УЧЁТОМ ФИЛЬТРОВ
+// ============================================
 function updateFiltersCount() {
+  // Определяем активные фильтры
   const activeCategory = document.querySelector('.filter.active')?.dataset.filter || 'all';
-  const activeCity = document.querySelector('.city-filter.active')?.dataset.city || 'all';
+  const citySelect = document.getElementById('city-select');
+  const activeCity = citySelect ? citySelect.value : 'all';
 
   const cards = document.querySelectorAll('.card');
   let count = 0;
@@ -116,16 +141,22 @@ function updateFiltersCount() {
   if (counter) counter.textContent = count;
 }
 
-// Фильтры по категориям
+// ============================================
+// 5. ФИЛЬТРЫ ПО КАТЕГОРИЯМ (КНОПКИ)
+// ============================================
 document.querySelectorAll('.filter').forEach(filter => {
-  filter.addEventListener('click', function () {
+  filter.addEventListener('click', function() {
+    // Убираем активный класс у всех кнопок категорий
     document.querySelectorAll('.filter').forEach(f => f.classList.remove('active'));
+    // Добавляем активный класс текущей кнопке
     this.classList.add('active');
+
+    // Получаем текущий выбранный город из выпадающего списка
+    const citySelect = document.getElementById('city-select');
+    const activeCity = citySelect ? citySelect.value : 'all';
 
     // Фильтруем карточки
     const cards = document.querySelectorAll('.card');
-    const activeCity = document.querySelector('.city-filter.active')?.dataset.city || 'all';
-
     cards.forEach(card => {
       const cardCategory = card.dataset.category;
       const cardCity = card.dataset.city;
@@ -139,25 +170,26 @@ document.querySelectorAll('.filter').forEach(filter => {
       }
     });
 
+    // Обновляем счётчик
     updateFiltersCount();
   });
 });
 
-// Фильтры по городам
-document.querySelectorAll('.city-filter').forEach(filter => {
-  filter.addEventListener('click', function () {
-    document.querySelectorAll('.city-filter').forEach(f => f.classList.remove('active'));
-    this.classList.add('active');
+// ============================================
+// 6. ФИЛЬТРЫ ПО ГОРОДАМ (ВЫПАДАЮЩИЙ СПИСОК)
+// ============================================
+const citySelect = document.getElementById('city-select');
+if (citySelect) {
+  citySelect.addEventListener('change', function() {
+    const activeCategory = document.querySelector('.filter.active')?.dataset.filter || 'all';
 
     // Фильтруем карточки
     const cards = document.querySelectorAll('.card');
-    const activeCategory = document.querySelector('.filter.active')?.dataset.filter || 'all';
-
     cards.forEach(card => {
       const cardCategory = card.dataset.category;
       const cardCity = card.dataset.city;
       const categoryMatch = activeCategory === 'all' || cardCategory === activeCategory;
-      const cityMatch = this.dataset.city === 'all' || cardCity === this.dataset.city;
+      const cityMatch = this.value === 'all' || cardCity === this.value;
 
       if (categoryMatch && cityMatch) {
         card.classList.remove('hidden');
@@ -166,14 +198,19 @@ document.querySelectorAll('.city-filter').forEach(filter => {
       }
     });
 
+    // Обновляем счётчик
     updateFiltersCount();
   });
-});
+}
 
-// Запуск
+// ============================================
+// 7. ЗАПУСК ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
+// ============================================
 document.addEventListener('DOMContentLoaded', loadObjects);
 
-// Наблюдатель за появлением карточек
+// ============================================
+// 8. НАБЛЮДАТЕЛЬ ДЛЯ АНИМАЦИИ КАРТОЧЕК (FADE-IN)
+// ============================================
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -182,9 +219,24 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.2 });
 
-// После загрузки карточек
+// Запускаем наблюдение после загрузки карточек
 setTimeout(() => {
   document.querySelectorAll('.card').forEach(card => {
     observer.observe(card);
   });
 }, 500);
+
+// ============================================
+// ДОБАВЛЕНИЕ СЧЁТЧИКА ПРОСМОТРОВ НА КАРТОЧКИ
+// ============================================
+
+// Переопределяем функцию создания карточки, чтобы добавить счётчик
+const originalLoadObjects = loadObjects;
+loadObjects = async function() {
+  await originalLoadObjects();
+
+  // Добавляем счётчики просмотров после загрузки
+  if (typeof displayViewCounts === 'function') {
+    displayViewCounts();
+  }
+};

@@ -1,24 +1,41 @@
 // ============================================
-// UI CONTROLLER - модалки, фильтры, скролл
+// ui-controller.js — УПРАВЛЕНИЕ ИНТЕРФЕЙСОМ
+// Версия: 2.0 (оптимизированная)
 // ============================================
 
-// Модальные окна
+// ============================================
+// 1. МОДАЛЬНЫЕ ОКНА (ОТКРЫТИЕ/ЗАКРЫТИЕ)
+// ============================================
+
+/**
+ * Открывает модальное окно по его ID
+ * @param {string} modalId - ID модального окна
+ */
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) {
     modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden'; // запрещаем скролл страницы
   }
 }
 
+/**
+ * Закрывает модальное окно по его ID
+ * @param {string} modalId - ID модального окна
+ */
 function closeModal(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) {
     modal.classList.remove('active');
-    document.body.style.overflow = '';
+    document.body.style.overflow = ''; // возвращаем скролл
   }
 }
 
+/**
+ * Открывает контактную форму с подстановкой названия и ID объекта
+ * @param {string} projectName - Название объекта
+ * @param {string} projectId - ID объекта
+ */
 function openContactForm(projectName, projectId) {
   const nameSpan = document.getElementById('contact-project-name');
   const idSpan = document.getElementById('contact-project-id');
@@ -27,14 +44,24 @@ function openContactForm(projectName, projectId) {
   openModal('modal-contact');
 }
 
-// Скролл
+// ============================================
+// 2. КНОПКА «НАВЕРХ»
+// ============================================
+
+/**
+ * Плавная прокрутка в начало страницы
+ */
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+/**
+ * Обработчик скролла для показа/скрытия кнопки «Наверх»
+ */
 function handleScroll() {
   const btn = document.getElementById('scrollTop');
   if (btn) {
+    // Для мобильных меньший порог появления
     const threshold = window.innerWidth <= 768 ? 150 : 250;
     if (document.body.scrollTop > threshold || document.documentElement.scrollTop > threshold) {
       btn.classList.add('visible');
@@ -44,61 +71,72 @@ function handleScroll() {
   }
 }
 
-// Закрытие по Escape
-document.addEventListener('keydown', function (e) {
+// ============================================
+// 3. ГЛОБАЛЬНЫЕ ОБРАБОТЧИКИ
+// ============================================
+
+/**
+ * Закрытие модальных окон по клавише Escape
+ */
+document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
-    document.querySelectorAll('.modal.active').forEach(function (modal) {
+    document.querySelectorAll('.modal.active').forEach(modal => {
       modal.classList.remove('active');
     });
     document.body.style.overflow = '';
   }
 });
 
-// Закрытие по клику на фон
-document.querySelectorAll('.modal').forEach(function (modal) {
-  modal.addEventListener('click', function (e) {
+/**
+ * Закрытие модального окна при клике на фон (вне контента)
+ */
+document.querySelectorAll('.modal').forEach(modal => {
+  modal.addEventListener('click', function(e) {
     if (e.target === modal) {
       closeModal(modal.id);
     }
   });
 });
 
-// Останавливаем всплытие
-document.querySelectorAll('.modal-header, .modal-body, .modal-logo').forEach(function (element) {
+/**
+ * Остановка всплытия событий при клике на содержимое модалки
+ * (чтобы клик по контенту не закрывал окно)
+ */
+document.querySelectorAll('.modal-header, .modal-body, .modal-logo').forEach(element => {
   if (element) {
-    element.addEventListener('click', function (e) {
+    element.addEventListener('click', function(e) {
       e.stopPropagation();
     });
   }
 });
 
-// Фильтры
-document.querySelectorAll('.filter').forEach(function (filter) {
-  filter.addEventListener('click', function () {
-    document.querySelectorAll('.filter').forEach(function (f) {
-      f.classList.remove('active');
-    });
-    this.classList.add('active');
+// ============================================
+// 4. УДАЛЕНИЕ СТАРЫХ ФИЛЬТРОВ (ВАЖНО!)
+// ============================================
+// ВНИМАНИЕ: фильтрация полностью вынесена в load-objects.js
+// Этот файл больше НЕ ДОЛЖЕН содержать логику фильтрации.
+// Старые обработчики удалены, чтобы не конфликтовать с новыми.
+//
+// Если раньше здесь был код для фильтров, он больше не нужен.
+// Вся фильтрация теперь происходит в load-objects.js:
+// - фильтры по категориям (кнопки)
+// - фильтры по городам (выпадающий список)
+// - совместная фильтрация
+// - обновление счётчика
 
-    const value = this.dataset.filter;
-    const cards = document.querySelectorAll('.card');
-    let count = 0;
+// ============================================
+// 5. ЗАПУСК ОБРАБОТЧИКОВ ПРИ ЗАГРУЗКЕ
+// ============================================
 
-    cards.forEach(function (card) {
-      const cardCategory = card.dataset.category;
-      if (value === 'all' || cardCategory === value) {
-        card.classList.remove('hidden');
-        count++;
-      } else {
-        card.classList.add('hidden');
-      }
-    });
+window.addEventListener('scroll', handleScroll);
 
-    const counter = document.querySelector('.counter-number');
-    if (counter) counter.textContent = count;
-  });
+document.addEventListener('DOMContentLoaded', function() {
+  handleScroll(); // проверяем положение скролла при загрузке
+
+  // Можно добавить лог для проверки
+  console.log('✅ UI Controller загружен. Фильтрация теперь в load-objects.js');
 });
 
-// Скролл
-window.addEventListener('scroll', handleScroll);
-document.addEventListener('DOMContentLoaded', handleScroll);
+// ============================================
+// КОНЕЦ ФАЙЛА
+// ============================================
